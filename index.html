@@ -1,25 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" type="text/css" href="index.css">
-  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhiteBoard</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
-  <nav>
-    <div class="sidebar">
-        <i class="fa-solid fa-bars"></i>
+    <div id="root">
+        <div id="top">
+            <button class="material-icons menu btn">menu</button>
+            <div class="options">
+                <button class="btn material-icons" id="pencil">edit</button>
+                <button class="btn material-symbols-outlined">brightness_1</button>
+                <button class="btn material-symbols-outlined">check_box_outline_blank</button>
+                <button class="btn material-symbols-outlined">ink_eraser</button>
+                <input type="color" id="color-picker">
+            </div>
+            <div></div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <div id="bottom">
+            <div class="options">
+                <button class="btn material-icons">undo</button>
+                <button class="btn material-icons">redo</button>
+            </div>
+        </div>
     </div>
-
-    <div class="draw-items-container">
-        <i class="fa-solid fa-lock"></i>
-        <i class="fa-regular fa-hand"></i>
-        <i class="fa-solid fa-arrow-pointer"></i>
-        <i class="fa-regular fa-square"></i>
-    </div>
-
-    <div class="colab-library-container">
-      <input type="text" placeholder="Search">
-      <button>Search</button>
-    </div>
-  </nav>
+    <script src="./index.js"></script>
+    <script src="hand.js"></script>
 </body>
+</html>
