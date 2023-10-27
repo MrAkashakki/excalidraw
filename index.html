@@ -12,16 +12,29 @@
 <body>
     <div id="root">
         <div id="top">
-            <button class="material-icons menu btn">menu</button>
+            <div class="top-nav">
+            <button class="material-icons menu btn"style="background-color: #ECECF3;" >menu</button>
             <div class="options">
-                <button class="btn material-icons" id="pencil">edit</button>
-                <button class="btn material-symbols-outlined">brightness_1</button>
-                <button class="btn material-symbols-outlined">check_box_outline_blank</button>
+                <button class="btn material-symbols-outlined">lock_open </button>
+                <button class="btn material-symbols-outlined">pan_tool</button>
+                <button class="btn material-symbols-outlined" id="square">check_box_outline_blank</button>
+                <button class="btn material-symbols-outlined" style=" transform: rotate(20deg);">check_box_outline_blank</button>
+                <button class="btn material-symbols-outlined"id="circle" > circle</button>
+                <button class="btn material-symbols-outlined">arrow_right_alt</button>
+                <button class="btn material-symbols-outlined">horizontal_rule</button>
+                <button class="btn material-symbols-outlined" id="pencil" > edit</button>
+                <button class="btn material-symbols-outlined">text_format</button>
+                <button class="btn material-symbols-outlined">imagesmode</button>
                 <button class="btn material-symbols-outlined">ink_eraser</button>
-                <input type="color" id="color-picker">
+                <button class="btn material-symbols-outlined">category</button>
             </div>
-            <div></div>
+            <div class="social-lib" >
+                <span class="material-symbols-outlined " style="background-color: blue;">group</span>
+                <span class="material-symbols-outlined">menu_book </span>
+            </div>
         </div>
+        </div>
+        <div class="color-changer"> <input type="color" id="color-picker"></div>
         <canvas id="canvas"></canvas>
         <div id="bottom">
             <div class="options">
@@ -30,7 +43,7 @@
             </div>
         </div>
     </div>
-    <script src="./index.js"></script>
-    <script src="hand.js"></script>
+    <script src="index.js"></script>
+    <!-- <script src="hand.js"></script> -->
 </body>
 </html>

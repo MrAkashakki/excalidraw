@@ -1,119 +1,163 @@
+// Old code
+const pencil = document.getElementById("pencil");
+let isPencilActive = false; // Initially, the pencil is inactive.
+
+const colorPicker = document.getElementById("color-picker");
+
+colorPicker.addEventListener("change", () => {
+    drawingColor = colorPicker.value;
+    console.log(drawingColor);
+});
+
+function onPencilClick() {
+    pencil.classList.toggle("active");
+    isPencilActive = !isPencilActive; // Enabling the drawing
+    if (isPencilActive) {
+        canvas.style.cursor = "crosshair";
+        canvas.addEventListener("mousedown", onMouseDown);
+    } else {
+        canvas.style.cursor = "auto";
+        canvas.removeEventListener("mousedown", onMouseDown);
+    }
+}
+
+pencil.addEventListener("click", onPencilClick);
+
 const canvas = document.getElementById("canvas");
 
-canvas.width = window.innerWidth ;
-canvas.height = window.innerHeight ;
-
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 const c = canvas.getContext("2d");
-// c is the context object responsible for making any kind of drawings on the canvas.
-
-// c.beginPath(); 
-/**
- * Properties for stroking
- * 1. strokeStyle = color to be drawn.
- * 2. lineWidth = thickness of the line.
- */
-// c.moveTo(200, 300); // starting point for the line.
-// c.lineTo(400, 100); // ending point for the line.
-// // c.strokeStyle = "red";
-// c.lineWidth = 10 ;
-// // c.globalAlpha = 1;
-// c.stroke(); // stroke function draws the line with black color from p1 to p2
-// c.closePath();
-
-
-// Draw three lines 
-// L1 : P1( 100, 50 ) , P2 ( 90, 200 )  => red colored , 3px thickness
-// L2 : P1( 50, 150 ) , P2 ( 300, 40 ) => blue colored, 10px thickness
-// L3 : P1(500, 500 ) , P2 (600 , 600 ) => tomato colored, 5px thickness.
 
 function drawLine(p1, p2, color = "blue", thickness = 2) {
     c.beginPath();
-    c.strokeStyle = color ;
-    c.lineWidth = thickness; 
+    c.strokeStyle = color;
+    c.lineWidth = thickness;
     c.moveTo(p1.x, p1.y);
     c.lineTo(p2.x, p2.y);
     c.stroke();
     c.closePath();
-}   
-
-// drawLine( {x: 100, y: 50 } , {x: 90, y: 200 }, "red", 3)
-// drawLine( {x: 50, y: 150 } , {x: 300, y: 40 }, "blue", 10)
-// drawLine( {x: 500, y: 500 } , {x: 600, y: 600 }, "tomato", 5)
-
-/*
-Dynamic line drawing: 
-
-function onMouseDown(event) {
-    let {clientX , clientY} = event; 
-    // {clientX, clientY} is position where use makes the mousedown.
-    c.beginPath(); 
-    c.moveTo(clientX, clientY);// stats the line at this position
-    c.lineWidth = 4 ;
-    c.strokeStyle = "blue"; 
 }
-
-function onMouseUp(event){
-    let {clientX, clientY} = event ;
-    // {clientX, clientY} is the position where user makes the mouseup.
-    // console.log(clientX, clientY);
-    c.lineTo(clientX, clientY);
-    c.stroke();
-    c.closePath();
-}
-*/
-
-
-// canvas.addEventListener("mousedown", onMouseDown); 
-// canvas.addEventListener("mouseup", onMouseUp);
-
-
-/*
-// Continuos lines: 
-
-c.beginPath();
-c.strokeStyle = "red"; 
-c.lineWidth  = 4 ;
-c.moveTo( 100, 100 );  // p1
-c.lineTo( 300, 100 ); // p2
-c.stroke(); // p1 => p2
-c.closePath();
-c.beginPath();
-c.moveTo(300, 100 );
-c.lineTo( 350, 20 ) ;
-c.lineWidth = 2;
-c.strokeStyle = "blue"; 
-c.stroke(); // strokes out from starting beginPath
-*/
-
-/**
- * Free hand drawing: 
- */
-
 
 let drawingColor = "blue";
-let previousPosition = null ;
+let previousPosition = null;
 
 function onMouseDown(e) {
-    previousPosition = [ e.clientX , e.clientY];
+    previousPosition = { x: e.clientX, y: e.clientY };
     c.strokeStyle = drawingColor;
-    c.lineWidth = 2; 
+    c.lineWidth = 2;
     canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mouseup", onMouseUp); 
+    canvas.addEventListener("mouseup", onMouseUp);
 }
 
-function onMouseMove(e){ 
-    // for the first time inside this  
-    let currentPosition = [ e.clientX , e.clientY ];
-    // draw line from previous position to current position ;
+function onMouseMove(e) {
+    let currentPosition = { x: e.clientX, y: e.clientY };
     c.beginPath();
-    c.moveTo(...previousPosition);
-    c.lineTo(...currentPosition);
+    c.moveTo(previousPosition.x, previousPosition.y);
+    c.lineTo(currentPosition.x, currentPosition.y);
     c.stroke();
     c.closePath();
-    previousPosition = currentPosition ;
+    previousPosition = currentPosition;
 }
 
-function onMouseUp(e){ 
+function onMouseUp(e) {
     canvas.removeEventListener("mousemove", onMouseMove);
+}
+
+// New code for squares and circles
+const squareButton = document.getElementById("square");
+const circleButton = document.getElementById("circle");
+let isSquareActive = false;
+let isCircleActive = false;
+
+squareButton.addEventListener("click", onSquareClick);
+circleButton.addEventListener("click", onCircleClick);
+
+function onSquareClick() {
+    squareButton.classList.toggle("active");
+    isSquareActive = !isSquareActive;
+
+    if (isSquareActive) {
+        isCircleActive = false;
+        circleButton.classList.remove("active");
+        canvas.style.cursor = "crosshair";
+        canvas.addEventListener("mousedown", onSquareMouseDown);
+    } else {
+        canvas.style.cursor = "auto";
+        canvas.removeEventListener("mousedown", onSquareMouseDown);
+    }
+}
+
+function onCircleClick() {
+    circleButton.classList.toggle("active");
+    isCircleActive = !isCircleActive;
+
+    if (isCircleActive) {
+        isSquareActive = false;
+        squareButton.classList.remove("active");
+        canvas.style.cursor = "crosshair";
+        canvas.addEventListener("mousedown", onCircleMouseDown);
+    } else {
+        canvas.style.cursor = "auto";
+        canvas.removeEventListener("mousedown", onCircleMouseDown);
+    }
+}
+
+function onSquareMouseDown(e) {
+    previousPosition = { x: e.clientX, y: e.clientY };
+    canvas.addEventListener("mousemove", onSquareMouseMove);
+    canvas.addEventListener("mouseup", onSquareMouseUp);
+}
+
+function onSquareMouseMove(e) {
+    const currentPosition = { x: e.clientX, y: e.clientY };
+    const width = currentPosition.x - previousPosition.x;
+    const height = currentPosition.y - previousPosition.y;
+
+    c.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+    if (width >= 0 && height >= 0) {
+        c.strokeRect(previousPosition.x, previousPosition.y, width, height);
+    }
+
+    if (width < 0 && height >= 0) {
+        c.strokeRect(previousPosition.x + width, previousPosition.y, -width, height);
+    }
+
+    if (width >= 0 && height < 0) {
+        c.strokeRect(previousPosition.x, previousPosition.y + height, width, -height);
+    }
+
+    if (width < 0 && height < 0) {
+        c.strokeRect(previousPosition.x + width, previousPosition.y + height, -width, -height);
+    }
+}
+
+function onSquareMouseUp(e) {
+    canvas.removeEventListener("mousemove", onSquareMouseMove);
+}
+
+function onCircleMouseDown(e) {
+    previousPosition = { x: e.clientX, y: e.clientY };
+    canvas.addEventListener("mousemove", onCircleMouseMove);
+    canvas.addEventListener("mouseup", onCircleMouseUp);
+}
+
+function onCircleMouseMove(e) {
+    const currentPosition = { x: e.clientX, y: e.clientY };
+    const radius = Math.sqrt(
+        Math.pow(currentPosition.x - previousPosition.x, 2) + Math.pow(currentPosition.y - previousPosition.y, 2)
+    );
+
+    c.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+    c.beginPath();
+    c.arc(previousPosition.x, previousPosition.y, radius, 0, Math.PI * 2);
+    c.stroke();
+    c.closePath();
+}
+
+function onCircleMouseUp(e) {
+    canvas.removeEventListener("mousemove", onCircleMouseMove);
 }
